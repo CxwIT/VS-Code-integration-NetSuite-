@@ -89,6 +89,43 @@
     "netSuiteUpload.realm": "xxx",  //   设置/公司/公司资料/科目ID
 ```
 
+> #### 配置样例
+
+```javascript
+{
+    // NETSUITE
+    // Script Deployment URL for the deployed vscodeExtensionRestlet.js
+    "netSuiteUpload.restlet": "https://tstdrv2028800.restlets.api.netsuite.com/app/site/hosting/restlet.nl?script=1705&deploy=1", //       vscodeExtensionRestlet.js 部署外部url（项目不同需要更改）
+    // Base NetSuite folder path to upload script to (e.g. "SuiteScripts/Developer"). Default if unset is "SuiteScripts".
+    "netSuiteUpload.rootDirectory": "SuiteScripts", //文件柜根目录 要与本地文件目录结构相同（项目不同需要更改）
+    // Temporary folder (e.g. C:\\temp or /tmp) - used for diffing files between local and remote.
+    "netSuiteUpload.tempFolder": "E:\\NS\\我的项目\\比较临时文件", // 本地文件与文件柜文件比对，下载的文件柜文件存放目录
+    // AUTHENTICATION - Use either NLAuth or Token Auth.
+
+    // 方式一：NLAuth
+    "netSuiteUpload.authentication": "NLAuth nlauth_account=TSTDRV2028800, nlauth_email=xuewu.chen@hand-china.com, nlauth_signature=Welcome123, nlauth_role=3",
+    // END 方式一
+
+
+    // 方式二：OAuth
+    // "netSuiteUpload.netSuiteKey": "9cf9c20542fa0dd65087d80229d089de595c22820006a133abeab51e4476f279", 
+    //设置/用户角色/访问令牌/新建 令牌ID
+
+    // "netSuiteUpload.netSuiteSecret": "3a38fde2dd71df29b238e8953df813e3346f623ba24eff55e320a81eeff0dc22", 
+    //设置/用户角色/访问令牌/新建 令牌秘密
+
+    // "netSuiteUpload.consumerToken": "653d91d4fd83f58691c6cdbdd3b6432013df8ab12932fa3f350d337e034dc9b7", 
+    // 设置/集成/管理整合/新建  顾客密钥
+
+    // "netSuiteUpload.consumerSecret": "de74fe6cbbf5eed88a986cad573f5c68ab2cfe876157d3ee793e82d3dc9b8e61", 
+    // 设置/集成/管理整合/新建 消费者密钥
+
+    // "netSuiteUpload.realm": "TSTDRV2028800", 
+    //设置/公司/公司资料/科目ID
+    // END 方式二
+}
+```
+
 
 
 > #### 第四步：动手开发吧。你已经完成了全部的配置，可以开心的玩了。
