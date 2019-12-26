@@ -72,4 +72,70 @@
 - `Compare file with NetSuite` - diff your local version with the NetSuite version
 - `Pull folder from NetSuite` - Download the folder and all contents from NetSuite
 
+> PS：之前的版本有个小bug，当使用ctrl+shift+p添加模块时，只会将模块附加到function里面，无法附加进define里面，作者已经修复此bug（不是作者本人，是使用这个拓展的以为大佬），有想法的可以自己去这里查看修复过程讲解。
+>
 
+- 第一步：文件路径  `C:\Users\11745\\.vscode\extensions\nsupload-org.netsuite-upload-1.2.3\helpers`，找到`codeChangeHelper.js`脚本，修改其中的`editCurrentDocument`方法如下：
+
+  ```javascript
+  async function editCurrentDocument(vsEditor, coords, content){
+      var vsDocument = getDocument(vsEditor);
+      var edit = setEditFactory(vsDocument._uri, coords, content);
+      var didApply = false;
+      didApply = await vscode.workspace.applyEdit(edit);
+       return didApply;
+  }
+  ```
+
+  同时，修改方法`updateDocument` 如下：
+
+  ```javascript
+  async function updateDocument(editor, startLine, startChar, endLine, endChar, content) {
+      var editorCoords = {
+          start : {
+              line: startLine,
+              char: startChar
+          },
+          end : {
+              line: endLine,
+              char: endChar
+          }
+      }
+      
+      var didApply = false; 
+  	didApply = await editCurrentDocument(editor, editorCoords, content);
+  	return didApply;
+  }
+  ```
+
+- 第二步 找到`netSuiteBl.js`脚本，修改方法`addDependency` 如下：
+
+  ```javascript
+  async function addDependency(editor, pathText, paramText) {
+      let docContent = editor.document.getText();
+      
+  	let coords = codeChangeHelper.getCoords(docContent);	
+      let oldParamsString = docContent.substring(coords.depParam.range[0], coords.depParam.range[1]);
+      let newParamsString = codeChangeHelper.getUpdatedFunctionParams(paramText, oldParamsString);
+  
+      let newPathArrayString = codeChangeHelper.getUpdatedDepPath(pathText,
+          coords.depPath ? docContent.substring(coords.depPath.range[0], coords.depPath.range[1]) : null);
+   
+      if (coords.depPath) {
+  		await codeChangeHelper.updateDocument(editor, coords.depParam.start.row - 1, coords.depParam.start.col,
+              coords.depParam.end.row - 1, coords.depParam.end.col, newParamsString);
+  			
+          await codeChangeHelper.updateDocument(editor, coords.depPath.start.row - 1, coords.depPath.start.col,
+              coords.depPath.end.row - 1, coords.depPath.end.col, newPathArrayString);
+  
+      } else { // Path array not defined
+          await codeChangeHelper.updateDocument(editor, coords.depParam.start.row - 1, coords.depParam.start.col,
+              coords.depParam.end.row - 1, coords.depParam.end.col, newPathArrayString + ', ' + newParamsString);
+      }
+  	
+  	return true;
+  }
+  
+  ```
+
+  ## 上述配置均设置完毕以后，就可以使用VS CODE进行NetSuite开发了。
