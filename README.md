@@ -75,7 +75,7 @@
 > PS：之前的版本有个小bug，当使用ctrl+shift+p添加模块时，只会将模块附加到function里面，无法附加进define里面，作者已经修复此bug（不是作者本人，是使用这个拓展的以为大佬），有想法的可以自己去这里查看修复过程讲解。地址：https://github.com/netsuite-upload-org/netsuite-upload/issues/31
 >
 
-- 第一步：文件路径  `C:\Users\11745\\.vscode\extensions\nsupload-org.netsuite-upload-1.2.3\helpers`，找到`codeChangeHelper.js`脚本，修改其中的`editCurrentDocument`方法如下：
+- 第一步：文件路径  `C:\Users\你的用户名\.vscode\extensions\nsupload-org.netsuite-upload-1.2.3\helpers`，找到`codeChangeHelper.js`脚本，修改其中的`editCurrentDocument`方法如下：
 
   ```javascript
   async function editCurrentDocument(vsEditor, coords, content){
