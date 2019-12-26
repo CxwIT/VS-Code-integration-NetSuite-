@@ -10,6 +10,26 @@
 
 > 第三步：配置`settings.json`文件,加入如下类容
 
+## 方式一：`NLAuth Authorization`验证
+
+> 使用 `NLAuth Authorization`验证登录 NS 系统
+
+1. 配置如下
+
+   ```javascript
+   // Authentication header
+     "netSuiteUpload.authentication": "NLAuth nlauth_account=<ACCOUNTID>, nlauth_email=<LOGIN>, nlauth_signature=<PASSWORD>, nlauth_role=<ROLE>",
+   ```
+
+2. 注释：
+
+   > - `ACCOUNTID` is your NetSuite account ID number(数字账号) 查询地址：*//**设置/公司/公司资料/科目ID*
+   > - `LOGIN` is your email address used to log into NetSuite（登录账号）
+   > - `PASSWORD` is your password (make sure you don't commit this file to source control)（密码）
+   > - `ROLE` is the numeric NetSuite RoleID for which you have web service/API permissions. You may need to go look this up in NetSuite Setup…Users/Roles…Manage Roles.（角色的ID）管理员、开发者专用角色、系统对接专用角色，一般使用管理员角色（`3`）
+
+## 方式二： `OAuth` 验证
+
 1. 部署 `vscodeExtensionRestlet.js`脚本，将其外部URL设置给 `netSuiteUpload.restlet`
 
 ```json
